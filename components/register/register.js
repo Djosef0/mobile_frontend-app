@@ -5,27 +5,33 @@ import axios from 'axios';
 
 const Register = ({ navigation, route }) => {
 
+    
 
-    // const [avatar, setAvatar] = useState("");
-    const [name, setName] = useState("");
+    const [avatar, setAvatar] = useState("");
+    const [username, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    console.log(name , email , password)
-   const registerHandler = async () => {
-       
+    const[err,setErr] = useState("");
+    const handleImage = () => {
+        navigation.navigate("camera", {
+            updateProfile: false
+        })
+    };
     
-    try {
-        await axios.post("http://192.168.1.61:8800/api/auth/register", { 
-            name,
-            email,
-            password
-         });
-        // history.push("/register");
-      } catch (err) {}
-        
-
-        
-    }
+    const handleClick = async (e) => {
+    
+        e.preventDefault();
+    
+        try {
+          await axios.post("http://192.168.1.151:8800/api/auth/register", 
+          {username ,
+           email , 
+           password});
+           navigation.navigate('Home')
+        } catch (err) {
+          console.log(err)
+        }
+      };
 
 
 
@@ -38,6 +44,14 @@ const Register = ({ navigation, route }) => {
                 justifyContent: "center",
             }}
         >
+             <Avatar.Image
+                size={100}
+                source={{ uri: avatar ? avatar : null }}
+                style={{ backgroundColor: "#900" }}
+            />
+            <TouchableOpacity onPress={handleImage}>
+                <Text style={{ color: "#900" }}>Change Photo</Text>
+            </TouchableOpacity>
             <Text style={{ fontSize: 20, margin: 20 }}>Register Here</Text>
            
 
@@ -45,7 +59,7 @@ const Register = ({ navigation, route }) => {
                 <TextInput
                     style={Styles.input}
                     placeholder="Name"
-                    value={name}
+                    value={username}
                     onChangeText={setName}
                 />
                 <TextInput
@@ -65,10 +79,10 @@ const Register = ({ navigation, route }) => {
 
             <Button
                 disabled={
-                    !email || !password || !name
+                    !email || !password || !username
                 }
                 style={Styles.btn}
-                onPress={registerHandler}
+                onPress={handleClick}
             >
                 <Text style={{ color: "#fff" }}>Register</Text>
             </Button>

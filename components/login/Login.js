@@ -2,7 +2,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'reac
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const serverUrl = "http://192.168.1.135:8800/api/auth/";
+const serverUrl = "http://192.168.1.151:8800/api/auth/";
 import axios from "axios";
 const Login = ({ navigation }) => {
 
@@ -23,7 +23,7 @@ const Login = ({ navigation }) => {
               }
             );
             if(data){
-             navigation.navigate('HomePage')
+            navigation.navigate('HomePage')
             AsyncStorage.setItem(
                 'user',
                 JSON.stringify(data.username+" "+data.accessToken),
@@ -36,6 +36,9 @@ const Login = ({ navigation }) => {
                 }
               );
 
+             }
+             else {
+                setMsg('err')
              }
          
         } catch (error) {
@@ -99,8 +102,9 @@ const Login = ({ navigation }) => {
                     Sign Up
                 </Text>
             </TouchableOpacity>
-
+           
         </View>
+       
     )
 }
 

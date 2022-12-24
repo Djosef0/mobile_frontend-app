@@ -4,17 +4,15 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity , ImageBackground ,
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from 'react-native-paper';
 import Loading from "../load/Loader"
+import Navigation from '../navigation/Navigation';
 
 const Home = ({navigation}) => {
-  const [user , setUser] = useState({})
- 
 
 const [msg , setMsg] = useState('');
 useEffect(()=>{
-    AsyncStorage.getItem('user', (err, result) => {
-    console.log(result)
-if(result.length>0){
-
+  AsyncStorage.getItem('user', (err, result) => {
+  console.log(result)
+if(result){
 const data = result.split(" ");
 const name = data[0]
 const token= data [1]
@@ -26,22 +24,22 @@ const t1 = token.replace('"',"")
 }}); 
 })
 
+//Lo
 const Logout = () =>{
   AsyncStorage.removeItem("user")
-  
-  
+  navigation.replace("Home")
 }
 
-  return (
+return (
     
     <View >
      
-      <Button style={{"marginLeft":280,
+      <Button onPress={Logout} style={{"marginLeft":280,
     "backgroundColor":"red",
     "marginTop":10,
     "width":100
     
-    }} ><Text style={{"color":"white"}} onPress={Logout}>Logout</Text></Button>
+    }} ><Text style={{"color":"white"}}  >Logout</Text></Button>
   <Image
         style={Styles.tinyLogo}
         source={{
